@@ -212,4 +212,10 @@ public class MetadataParserTest {
         final MetadataContainer parsed = MetadataParserTest.readContainer("/legacy/entrypoint.json");
         Assertions.assertEquals(mainEntrypointOnlyContainer, parsed);
     }
+
+    @Test
+    public void readLowercaseLoadOrder() throws IOException {
+        final MetadataContainer parsed = MetadataParserTest.readContainer("/valid/lowercase_load_order.json");
+        Assertions.assertEquals(mixContainer, parsed);
+    }
 }

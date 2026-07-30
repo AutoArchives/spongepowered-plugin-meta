@@ -1,0 +1,55 @@
+{
+  "global": {
+    "loader": {
+      "name": "java_plain",
+      "version": "1.0"
+    },
+    "license": "some_license"
+  },
+  "plugins": [
+    {
+      "id": "test_plugin",
+      "entrypoints": {
+        "main": [
+          "my.test.package.MyTestPlugin_Main"
+        ],
+        "server": [
+          "my.test.package.MyTestPlugin_Server"
+        ],
+        "client": [
+          "my.test.package.MyTestPlugin_Client"
+        ]
+      },
+      "version": "1.2.3",
+      "name": "TestPlugin",
+      "description": "Some test plugin",
+      "links": {
+        "homepage": "https://spongepowered.org/",
+        "source": "https://github.com/SpongePowered/Sponge",
+        "issues": "https://github.com/SpongePowered/Sponge/issues"
+      },
+      "contributors": [
+        {
+          "name": "Spongie",
+          "description": "Mascot"
+        }
+      ],
+      "conflicts": [
+        {
+          "id": "bad_plugin",
+          "version": "3.2.1",
+          "fatal": true,
+          "reason": "Incompatible for some reasons"
+        }
+      ],
+      "dependencies": [
+        {
+          "id": "spongeapi",
+          "version": "17.0.0",
+          "load-order": "after",
+          "optional": false
+        }
+      ]
+    }
+  ]
+}
