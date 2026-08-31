@@ -54,6 +54,18 @@ public interface PluginMetadata {
     String id();
 
     /**
+     * Gets the original {@link String id}.
+     * It may be used by the platform for retro-compatibility reasons.
+     * It may not be a valid id according to the current {@link Constants#VALID_ID_PATTERN}.
+     *
+     * @return The original id
+     */
+    @Deprecated
+    default String originalId() {
+        return this.id();
+    }
+
+    /**
      * @return The {@link PluginEntrypoints entrypoints}
      */
     PluginEntrypoints entrypoints();

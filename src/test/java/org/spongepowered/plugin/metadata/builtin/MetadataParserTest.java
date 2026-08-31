@@ -186,6 +186,7 @@ public class MetadataParserTest {
         Assertions.assertLinesMatch(expected, result);
     }
 
+    @SuppressWarnings("deprecation")
     @Test
     public void readLegacyDashInId() throws IOException {
         final String pluginIdWarning = "Plugin id 'test-plugin' is invalid and has been converted to 'test_plugin'.";
@@ -198,6 +199,7 @@ public class MetadataParserTest {
         Assertions.assertEquals(1, parsed.plugins().size());
         final PluginMetadata plugin = parsed.plugins().getFirst();
         Assertions.assertEquals("test_plugin", plugin.id());
+        Assertions.assertEquals("test-plugin", plugin.originalId());
 
         Assertions.assertEquals(1, plugin.dependencies().size());
         final PluginDependency dependency = plugin.dependencies().iterator().next();

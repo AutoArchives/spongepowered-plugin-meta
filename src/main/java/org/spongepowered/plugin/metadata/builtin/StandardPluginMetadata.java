@@ -46,7 +46,7 @@ import java.util.Optional;
 import java.util.StringJoiner;
 
 public final class StandardPluginMetadata implements PluginMetadata {
-    private final String id;
+    private final String id, originalId;
     private final PluginEntrypoints entrypoints;
     private final InheritableMetadata global, override;
 
@@ -64,6 +64,7 @@ public final class StandardPluginMetadata implements PluginMetadata {
 
     private StandardPluginMetadata(final Builder builder) {
         this.id = builder.id;
+        this.originalId = builder.originalId;
         this.entrypoints = builder.entrypoints;
         this.global = builder.global;
         this.override = builder.override;
@@ -84,6 +85,13 @@ public final class StandardPluginMetadata implements PluginMetadata {
     @Override
     public String id() {
         return this.id;
+    }
+
+    @SuppressWarnings("deprecation")
+    @Deprecated
+    @Override
+    public String originalId() {
+        return this.originalId;
     }
 
     @Override
@@ -167,7 +175,7 @@ public final class StandardPluginMetadata implements PluginMetadata {
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.id, this.entrypoints, this.global, this.override);
+        return Objects.hash(this.id, this.originalId, this.entrypoints, this.global, this.override);
     }
 
     @Override
@@ -180,7 +188,7 @@ public final class StandardPluginMetadata implements PluginMetadata {
             return false;
         }
 
-        return this.id.equals(other.id) && this.entrypoints.equals(other.entrypoints)
+        return this.id.equals(other.id) && this.originalId.equals(other.originalId) && this.entrypoints.equals(other.entrypoints)
                 && this.global.equals(other.global) && this.override.equals(other.override);
     }
 
@@ -188,6 +196,7 @@ public final class StandardPluginMetadata implements PluginMetadata {
     public String toString() {
         return new StringJoiner(", ", StandardPluginMetadata.class.getSimpleName() + "[", "]")
                 .add("id=" + this.id)
+                .add("originalId=" + this.originalId)
                 .add("entrypoints=" + this.entrypoints)
                 .add("version=" + this.version)
                 .add("loader=" + this.loader)
@@ -211,7 +220,7 @@ public final class StandardPluginMetadata implements PluginMetadata {
 
     public static final class Builder {
 
-        private @MonotonicNonNull String id;
+        private @MonotonicNonNull String id, originalId;
         private PluginEntrypoints entrypoints = PluginEntrypoints.none();
         private InheritableMetadata global = InheritableMetadata.none(), override = InheritableMetadata.none();
 
@@ -219,6 +228,13 @@ public final class StandardPluginMetadata implements PluginMetadata {
 
         public Builder id(final String id) {
             this.id = Objects.requireNonNull(id, "id");
+            this.originalId = id;
+            return this;
+        }
+
+        @Deprecated
+        public Builder originalId(final String originalId) {
+            this.originalId = Objects.requireNonNull(originalId, "originalId");
             return this;
         }
 
@@ -239,6 +255,7 @@ public final class StandardPluginMetadata implements PluginMetadata {
 
         public Builder from(final StandardPluginMetadata value) {
             this.id = value.id;
+            this.originalId = value.originalId;
             this.entrypoints = value.entrypoints;
             this.global = value.global;
             this.override = value.override;

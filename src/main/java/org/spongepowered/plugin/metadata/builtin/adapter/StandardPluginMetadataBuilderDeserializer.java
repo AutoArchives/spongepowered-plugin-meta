@@ -36,11 +36,14 @@ import java.util.List;
 
 public final class StandardPluginMetadataBuilderDeserializer implements JsonDeserializer<StandardPluginMetadata.Builder> {
 
+    @SuppressWarnings("deprecation")
     @Override
     public StandardPluginMetadata.Builder deserialize(final JsonElement element, final Type type, final JsonDeserializationContext context) throws JsonParseException {
         final JsonObject obj = element.getAsJsonObject();
+        final String id = GsonUtils.require(obj, "id").getAsString();
         return StandardPluginMetadata.builder()
-                .id(LegacyIds.fix(GsonUtils.require(obj, "id").getAsString()))
+                .id(LegacyIds.fix(id))
+                .originalId(id)
                 .entrypoints(
                         GsonUtils.optional(obj, "entrypoints").map(v -> context.<PluginEntrypoints>deserialize(v, PluginEntrypoints.class))
                                 .or(() -> GsonUtils.optional(obj, "entrypoint").map(v -> new PluginEntrypoints(List.of(v.getAsString())))) // legacy
